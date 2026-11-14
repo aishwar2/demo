@@ -66,12 +66,11 @@ python3 -m unittest discover -s tests -p "test_*.py" -v
 
 ---
 
-## ⚙️ Enabling GitHub Pages (One-Time Setup)
+## ⚙️ Enabling GitHub Pages (One-Time 10-Second Setup)
 
-Once the code is pushed to your GitHub repository:
-1. Open the repository on GitHub: `https://github.com/aishwar2/<repo-name>`
-2. Go to **Settings** > **Pages** (in the left sidebar).
-3. Under **Build and deployment** > **Source**, select **GitHub Actions**.
-4. The workflow will run automatically on the next push or manual trigger!
-5. Your live site will be available at:
-   `https://aishwar2.github.io/<repo-name>/`
+To allow GitHub Actions to publish the site to GitHub Pages:
+1. Open repository settings: [demo/settings/pages](https://github.com/aishwar2/demo/settings/pages)
+2. Under **Build and deployment** > **Source**, change from *Deploy from a branch* to **GitHub Actions**.
+3. Go to [demo/actions](https://github.com/aishwar2/demo/actions), click **CI/CD Pipeline & GitHub Pages Deploy** > **Re-run all jobs**.
+4. Your live website is immediately published at:
+   👉 **https://aishwar2.github.io/demo/**
