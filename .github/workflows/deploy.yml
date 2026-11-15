@@ -1,4 +1,4 @@
-name: CI/CD Pipeline & GitHub Pages Deploy
+name: CI/CD Pipeline & GitHub Pages / Docker Deploy
 
 on:
   push:
@@ -11,9 +11,10 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  packages: write
 
 concurrency:
-  group: "pages"
+  group: "deployment"
   cancel-in-progress: false
 
 jobs:
@@ -38,7 +39,7 @@ jobs:
           python3 -m unittest discover -s tests -p "test_*.py" -v
 
   # ==========================================
-  # STAGE 3 & 4: CONTINUOUS DEPLOYMENT (CD)
+  # STAGE 3 & 4: CONTINUOUS DEPLOYMENT (PAGES)
   # ==========================================
   deploy:
     name: "CD: Build & Deploy to GitHub Pages"
@@ -77,3 +78,50 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # ==========================================
+  # STAGE 5: DOCKER CI/CD & REGISTRY DEPLOY
+  # ==========================================
+  docker:
+    name: "CD: Build & Push Docker Container"
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=raw,value=latest
+            type=sha,format=short
+
+      - name: Build and Test Docker Container
+        run: |
+          docker build -t ghcr.io/${{ github.repository }}:test .
+          docker run -d --name test-run -p 8080:80 ghcr.io/${{ github.repository }}:test
+          sleep 3
+          curl --fail http://localhost:8080/health || exit 1
+          docker rm -f test-run
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
