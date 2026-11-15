@@ -50,9 +50,42 @@ flowchart LR
 │   └── style.css           # Modern dark-theme glassmorphism UI
 ├── tests/
 │   └── test_website.py     # Automated test suite executed by CI runner
+├── Dockerfile              # Production Nginx Alpine container definition
+├── docker-compose.yml      # Local container orchestration
+├── nginx.conf              # High-performance Nginx config with /health check
 ├── index.html              # Main responsive web portal
 └── README.md               # Documentation & setup guide
 ```
+
+---
+
+## 🐳 Docker Deployment & CI/CD
+
+### 1. Run locally with Docker Compose
+```bash
+docker compose up -d
+```
+Visit the website at `http://localhost:8080` (or `http://localhost:8080/health`).
+
+### 2. Build and run directly with Docker CLI
+```bash
+# Build the production image
+docker build -t cicd-test-website:latest .
+
+# Run container on port 8080
+docker run -d --name my-website -p 8080:80 cicd-test-website:latest
+```
+
+### 3. Automated Docker CI/CD Pipeline
+Every push to `main` automatically:
+1. Runs tests in Python runner (`unittest`).
+2. Builds and validates the Docker image.
+3. Performs a live container health-check.
+4. Pushes the image to **GitHub Container Registry (GHCR)**:
+   ```bash
+   docker pull ghcr.io/aishwar2/demo:latest
+   ```
+5. Deploys to **GitHub Pages CDN**.
 
 ---
 

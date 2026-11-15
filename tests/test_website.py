@@ -71,5 +71,26 @@ class TestWebsiteStructure(unittest.TestCase):
         self.assertIn('actions/checkout', wf_content, "Workflow must checkout repository")
         self.assertIn('actions/deploy-pages', wf_content, "Workflow must deploy to GitHub Pages")
 
+    def test_docker_configuration(self):
+        """Verify Dockerfile, Nginx configuration and Docker Compose setup."""
+        dockerfile_path = os.path.join(PROJECT_ROOT, 'Dockerfile')
+        nginx_conf_path = os.path.join(PROJECT_ROOT, 'nginx.conf')
+        compose_path = os.path.join(PROJECT_ROOT, 'docker-compose.yml')
+
+        self.assertTrue(os.path.exists(dockerfile_path), "Dockerfile missing")
+        self.assertTrue(os.path.exists(nginx_conf_path), "nginx.conf missing")
+        self.assertTrue(os.path.exists(compose_path), "docker-compose.yml missing")
+
+        with open(dockerfile_path, 'r', encoding='utf-8') as f:
+            dockerfile = f.read()
+        self.assertIn('FROM nginx:alpine', dockerfile, "Dockerfile must use nginx:alpine base image")
+        self.assertIn('EXPOSE 80', dockerfile, "Dockerfile must expose port 80")
+        self.assertIn('HEALTHCHECK', dockerfile, "Dockerfile must include HEALTHCHECK instruction")
+
+        with open(nginx_conf_path, 'r', encoding='utf-8') as f:
+            nginx_conf = f.read()
+        self.assertIn('/health', nginx_conf, "nginx.conf must define /health endpoint")
+        self.assertIn('gzip on;', nginx_conf, "nginx.conf should enable gzip")
+
 if __name__ == '__main__':
     unittest.main()
