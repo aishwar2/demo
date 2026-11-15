@@ -1,95 +1,48 @@
-# ⚡ CI/CD Demo Quickstart & Hands-On Guide
+# ⚡ CI/CD Demo: Deployment Example & Release Notes Guide
 
-This note provides a quick, practical example of how to use, test, and deploy this automated CI/CD demo.
-
----
-
-## 🎯 What is this CI/CD Demo?
-
-A modern DevOps pipeline combining:
-1. **Local Test & Simulation Engine** (`tests/test_website.py` & `simulate_pipeline.py`)
-2. **Interactive Web Dashboard** (`index.html`, `assets/`)
-3. **Cloud CI/CD Automation** (`.github/workflows/deploy.yml` on GitHub Actions)
-4. **Zero-Downtime Production CDN** (GitHub Pages)
+This guide documents the **v1.1.0 deployment example** implemented in the [`/home/Aishwar/demo`](file:///home/Aishwar/demo) repository.
 
 ---
 
-## 🚀 Practical Example: 4 Ways to Use It
+## 📦 What Was Deployed in this Example?
 
-### Scenario 1: Run the Interactive Web Portal Locally
+- **Commit SHA:** `e970770`
+- **Release Version:** `v1.1.0`
+- **Component Added:** Live Deployment Release Notes section directly on the website ([`index.html`](file:///home/Aishwar/demo/index.html)).
+- **Automated Verification:** All 6 Python unit tests verified and passed.
 
-Preview the clean dashboard and click the interactive buttons:
+---
 
+## 🔄 The 5 Deployment Stages Executed
+
+When `simulate_pipeline.py` ran on commit `e970770`, it executed:
+
+```
+[STAGE 1/5] Trigger: push -> refs/heads/main (Commit SHA: e970770)
+[STAGE 2/5] Lint & Syntax: Validated index.html, style.css, app.js, deploy.yml
+[STAGE 3/5] Unit Tests: Ran 6/6 tests in 0.001s (All passed)
+[STAGE 4/5] Build & Metadata: Injected build number BUILD_#8619 and commit e970770
+[STAGE 5/5] Deploy: Deployed to GitHub Pages CDN (Atomic zero-downtime swap)
+```
+
+---
+
+## 🚀 How to Run and View this Deployed Example
+
+### 1. View the Live Website in Your Browser
+Run the local server:
 ```bash
 cd /home/Aishwar/demo
 ./simulate_pipeline.py --serve
 ```
-
-1. Open your browser and go to: **`http://localhost:8080/`**
-2. Click **"Simulate CI/CD Pipeline" ⚡** to watch stages 1 through 5 light up in sequence.
-3. Click **"Run Test Suite"** to run client-side verification checks.
-4. Press `Ctrl + C` in your terminal when you want to stop the server.
+1. Open **`http://localhost:8080/`**.
+2. Scroll to the **"Deployment Example: Release Notes v1.1.0"** section or click the **Release Notes** link in the navbar.
+3. Test the interactive **"Simulate CI/CD Pipeline"** button.
 
 ---
 
-### Scenario 2: Run the 5-Stage Pipeline in Your Terminal
-
-Simulate the exact steps executed by the GitHub Actions cloud runner:
-
-```bash
-cd /home/Aishwar/demo
-./simulate_pipeline.py
-```
-
-**What it does:**
-- **Stage 1 (Trigger):** Detects git commit hash on branch `main`.
-- **Stage 2 (Lint):** Validates HTML, CSS, JS, and workflow syntax.
-- **Stage 3 (Unit Tests):** Runs all 6 Python unit tests.
-- **Stage 4 (Build):** Simulates dynamic `sed` metadata injection.
-- **Stage 5 (Deploy):** Simulates zero-downtime deployment to GitHub Pages.
-
----
-
-### Scenario 3: See How CI Catches Errors (Safety Circuit Breaker)
-
-Simulate what happens if someone pushes broken code:
-
-```bash
-cd /home/Aishwar/demo
-./simulate_pipeline.py --fail-test
-```
-
-**Result:**
-- CI runs unit tests, detects the regression, and immediately halts with exit code 1.
-- **Deployment is blocked**, keeping production 100% safe from bad releases.
-
----
-
-### Scenario 4: Push Changes to Live Production (Real CI/CD)
-
-Whenever you edit files and push to GitHub, the real cloud pipeline triggers automatically:
-
-```bash
-cd /home/Aishwar/demo
-
-# 1. Stage and commit your changes
-git add .
-git commit -m "feat: updated website headline"
-
-# 2. Push to GitHub
-git push origin main
-```
-
-**Where to check live:**
-- **GitHub Actions Runner:** [https://github.com/aishwar2/demo/actions](https://github.com/aishwar2/demo/actions)
-- **Live Production Website:** [https://aishwar2.github.io/demo/](https://aishwar2.github.io/demo/)
-
----
-
-## 🧪 Run Unit Tests Directly
-
-Run the official test suite executed by the CI server:
-
+### 2. Verify with the Automated Test Suite
+To confirm that the new deployment example didn't break any contracts:
 ```bash
 cd /home/Aishwar/demo
 python3 -m unittest discover -s tests -p "test_*.py" -v
@@ -97,12 +50,21 @@ python3 -m unittest discover -s tests -p "test_*.py" -v
 
 ---
 
-## 📋 Quick Command Cheat Sheet
+### 3. Push to GitHub for Cloud Deployment
+To trigger the live GitHub Actions runner to deploy this release to [https://aishwar2.github.io/demo/](https://aishwar2.github.io/demo/):
+```bash
+cd /home/Aishwar/demo
+git push origin main
+```
 
-| Task | Command |
+---
+
+## 📝 Release Notes v1.1.0 Summary
+
+| Area | Change Description |
 | :--- | :--- |
-| **Launch Browser Dashboard** | `./simulate_pipeline.py --serve` |
-| **Simulate Full Pipeline (CLI)** | `./simulate_pipeline.py` |
-| **Simulate CI Failure Gate** | `./simulate_pipeline.py --fail-test` |
-| **Run Python Unit Tests** | `python3 -m unittest discover -s tests -v` |
-| **Deploy Live to GitHub** | `git push origin main` |
+| **UX & Simplicity** | Clean layout, removed clutter and battery signs. |
+| **Widescreen Layout** | 1440px fluid container with balanced whitespace. |
+| **New Section** | Added dedicated *Deployment Example & Release Notes v1.1.0* section. |
+| **Automation** | Full CLI simulator (`./simulate_pipeline.py`) with failure mode testing. |
+| **Test Quality** | 100% pass rate across all 6 structural and workflow unit tests. |
