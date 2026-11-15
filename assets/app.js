@@ -1,18 +1,18 @@
-// DevOpsPulse CI/CD Interactive Portal
+// DevOpsPulse CI/CD Portal - Interactive Pipeline & Test Engine
 document.addEventListener('DOMContentLoaded', () => {
-  // Format deploy time if placeholder is present
+  // 1. Format deploy time if placeholder is present
   const deployTimeEl = document.getElementById('deploy-time');
   if (deployTimeEl && (deployTimeEl.innerText.includes('__') || deployTimeEl.innerText === 'Just Now')) {
     deployTimeEl.innerText = new Date().toLocaleString();
   }
 
-  // Interactive Pipeline Simulation
+  // 2. Interactive Pipeline Simulation
   const simulateBtn = document.getElementById('btn-simulate-pipeline');
   const statusText = document.getElementById('pipeline-status-text');
   const stages = [
     { id: 'stage-trigger', label: 'Triggering via Git Webhook...' },
-    { id: 'stage-lint', label: 'Linting HTML & CSS...' },
-    { id: 'stage-test', label: 'Running automated test suite in runner...' },
+    { id: 'stage-lint', label: 'Linting HTML & CSS syntax...' },
+    { id: 'stage-test', label: 'Running automated Python test suite...' },
     { id: 'stage-build', label: 'Injecting commit metadata & bundling...' },
     { id: 'stage-deploy', label: 'Publishing live to GitHub Pages CDN...' }
   ];
@@ -33,18 +33,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const el = document.getElementById(stage.id);
         if (el) {
           el.classList.add('highlight');
-          statusText.innerText = `[Step ${i + 1}/${stages.length}] ${stage.label}`;
-          await new Promise(r => setTimeout(r, 600));
+          if (statusText) statusText.innerText = `[Step ${i + 1}/${stages.length}] ${stage.label}`;
+          await new Promise(r => setTimeout(r, 550));
         }
       }
 
-      statusText.innerHTML = `✅ Pipeline completed successfully in 3.0s! All checks passed.`;
+      if (statusText) {
+        statusText.innerHTML = `✅ Pipeline completed successfully in 2.8s! All 5 checks passed.`;
+      }
       simulateBtn.disabled = false;
       simulateBtn.innerHTML = `<span>Re-run CI/CD Simulation</span> ⚡`;
     });
   }
 
-  // In-Browser Test Runner
+  // 3. In-Browser Test Runner Engine
   const runTestsBtn = document.getElementById('btn-run-tests');
   if (runTestsBtn) {
     runTestsBtn.addEventListener('click', async () => {
@@ -80,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
           id: 'test-item-4',
           name: 'Workflow Config',
           run: () => {
-            return true; // Validated in python CI runner
+            return true; // Validated in Python CI runner
           }
         }
       ];
@@ -88,10 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
       for (const t of tests) {
         const itemEl = document.getElementById(t.id);
         if (itemEl) {
-          itemEl.style.opacity = '0.5';
-          await new Promise(r => setTimeout(r, 250));
+          itemEl.style.opacity = '0.4';
+          await new Promise(r => setTimeout(r, 200));
           const passed = t.run();
           itemEl.style.opacity = '1';
+
           const tag = itemEl.querySelector('.test-status-tag');
           if (tag) {
             tag.innerText = passed ? 'PASS' : 'FAIL';

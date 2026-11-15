@@ -3,43 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Test CI/CD Website with automated GitHub Actions testing and deployment">
+  <meta name="description" content="Simple, modern automated CI/CD pipeline demonstration powered by GitHub Actions and GitHub Pages">
   <title>CI/CD Automated Deployment Portal</title>
   <link rel="stylesheet" href="assets/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="background-glow glow-1"></div>
-  <div class="background-glow glow-2"></div>
+  <!-- Ambient background glow -->
+  <div class="bg-glow glow-top"></div>
+  <div class="bg-glow glow-bottom"></div>
 
-  <header class="header">
-    <div class="container nav-content">
-      <div class="brand">
+  <!-- Minimal, clean top navbar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="#top" class="brand">
         <span class="logo-icon">⚡</span>
         <span class="logo-text">DevOps<span class="accent">Pulse</span></span>
-        <span class="badge badge-success">CI/CD Active</span>
-      </div>
-      <div class="nav-links">
+      </a>
+
+      <nav class="nav-links">
         <a href="#pipeline" class="nav-link">Pipeline</a>
         <a href="#test-runner" class="nav-link">Live Tests</a>
-        <a href="#cicd-guide" class="nav-link">CI/CD Guide</a>
-        <a href="https://github.com/aishwar2/demo" target="_blank" class="btn btn-sm btn-outline">GitHub Repo</a>
+        <a href="#cicd-guide" class="nav-link">About CI/CD</a>
+        <a href="#release-notes" class="nav-link">Release Notes</a>
+      </nav>
+
+      <div class="nav-actions">
+        <span class="status-pill">
+          <span class="dot pulse"></span> CI: Passing
+        </span>
+        <a href="https://github.com/aishwar2/demo" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline">
+          GitHub Repo ↗
+        </a>
       </div>
     </div>
   </header>
 
-  <main class="container">
+  <!-- Full-width spacious main layout -->
+  <main class="container main-content" id="top">
     <!-- Hero Section -->
     <section class="hero">
-      <div class="hero-tag">Continuous Integration & Continuous Deployment</div>
-      <h1 class="hero-title">Automated CI/CD Pipeline Demo</h1>
+      <div class="hero-tag">Automated DevOps Pipeline</div>
+      <h1 class="hero-title">Continuous Integration & Deployment</h1>
       <p class="hero-desc">
-        Every commit pushed to this repository triggers an automated pipeline: linting code, running unit tests, injecting build metadata, and publishing live to production via GitHub Actions.
+        Every commit pushed to this repository triggers an automated workflow: validating code, running unit tests, and publishing live to production via GitHub Actions.
       </p>
 
-      <!-- Live Metadata Dashboard -->
+      <!-- Live Metadata Dashboard Grid -->
       <div class="meta-grid">
         <div class="meta-card">
           <div class="meta-label">Pipeline Status</div>
@@ -47,7 +59,7 @@
         </div>
         <div class="meta-card">
           <div class="meta-label">Build ID</div>
-          <div class="meta-val" id="build-id">BUILD_#LOCAL_DEV</div>
+          <div class="meta-val code-font" id="build-id">BUILD_#LOCAL_DEV</div>
         </div>
         <div class="meta-card">
           <div class="meta-label">Commit SHA</div>
@@ -59,7 +71,7 @@
         </div>
         <div class="meta-card">
           <div class="meta-label">Environment</div>
-          <div class="meta-val text-accent">Production (GitHub Pages)</div>
+          <div class="meta-val text-accent">GitHub Pages CDN</div>
         </div>
         <div class="meta-card">
           <div class="meta-label">Last Deploy Time</div>
@@ -68,96 +80,89 @@
       </div>
     </section>
 
-    <!-- Pipeline Visualizer -->
+    <!-- SECTION 1: 5-Stage Pipeline Flow -->
     <section id="pipeline" class="section">
       <div class="section-header">
         <h2 class="section-title">The CI/CD Workflow Pipeline</h2>
-        <p class="section-subtitle">Visual representation of the automated steps executed on every code push.</p>
+        <p class="section-subtitle">A visual representation of the automated steps executed on every push to <code>main</code>.</p>
       </div>
 
+      <!-- Clean 5-Stage Horizontal Track -->
       <div class="pipeline-track">
         <!-- Stage 1 -->
         <div class="pipeline-stage active" id="stage-trigger">
           <div class="stage-num">01</div>
           <div class="stage-icon">🚀</div>
           <div class="stage-name">Git Push</div>
-          <div class="stage-desc">Developer pushes commit to <code>main</code> branch. GitHub webhook triggers pipeline.</div>
+          <div class="stage-desc">Commit pushed to <code>main</code> triggers GitHub Actions runner.</div>
           <div class="stage-badge">Trigger</div>
         </div>
 
-        <div class="pipeline-connector">
-          <div class="connector-line"></div>
-        </div>
+        <div class="pipeline-connector"><div class="connector-line"></div></div>
 
         <!-- Stage 2 -->
         <div class="pipeline-stage active" id="stage-lint">
           <div class="stage-num">02</div>
           <div class="stage-icon">🔍</div>
           <div class="stage-name">Lint & Verify</div>
-          <div class="stage-desc">Validates HTML5 syntax, checks links, and audits workflow files for issues.</div>
-          <div class="stage-badge">CI Stage 1</div>
+          <div class="stage-desc">Validates HTML5 syntax and checks linked assets.</div>
+          <div class="stage-badge">CI Gate 1</div>
         </div>
 
-        <div class="pipeline-connector">
-          <div class="connector-line"></div>
-        </div>
+        <div class="pipeline-connector"><div class="connector-line"></div></div>
 
         <!-- Stage 3 -->
         <div class="pipeline-stage active" id="stage-test">
           <div class="stage-num">03</div>
           <div class="stage-icon">🧪</div>
-          <div class="stage-name">Automated Tests</div>
-          <div class="stage-desc">Executes Python unittest suite. If any test fails, deployment halts immediately.</div>
-          <div class="stage-badge">CI Stage 2</div>
+          <div class="stage-name">Unit Tests</div>
+          <div class="stage-desc">Executes Python unit test suite. Halts pipeline on failure.</div>
+          <div class="stage-badge">CI Gate 2</div>
         </div>
 
-        <div class="pipeline-connector">
-          <div class="connector-line"></div>
-        </div>
+        <div class="pipeline-connector"><div class="connector-line"></div></div>
 
         <!-- Stage 4 -->
         <div class="pipeline-stage active" id="stage-build">
           <div class="stage-num">04</div>
           <div class="stage-icon">📦</div>
           <div class="stage-name">Build & Metadata</div>
-          <div class="stage-desc">Injects GitHub Run ID, Commit Hash, and timestamp into deployment artifacts.</div>
-          <div class="stage-badge">CD Stage 1</div>
+          <div class="stage-desc">Injects build run number and commit SHA into static files.</div>
+          <div class="stage-badge">CD Prep</div>
         </div>
 
-        <div class="pipeline-connector">
-          <div class="connector-line"></div>
-        </div>
+        <div class="pipeline-connector"><div class="connector-line"></div></div>
 
         <!-- Stage 5 -->
         <div class="pipeline-stage active" id="stage-deploy">
           <div class="stage-num">05</div>
           <div class="stage-icon">🌐</div>
           <div class="stage-name">Deploy to Prod</div>
-          <div class="stage-desc">Publishes static bundle to GitHub Pages CDN with zero manual intervention.</div>
-          <div class="stage-badge">CD Stage 2</div>
+          <div class="stage-desc">Publishes release live to GitHub Pages with zero downtime.</div>
+          <div class="stage-badge">CD Release</div>
         </div>
       </div>
 
       <div class="pipeline-controls">
         <button id="btn-simulate-pipeline" class="btn btn-primary">
-          <span>Simulate CI/CD Pipeline Run</span> ⚡
+          <span>Simulate CI/CD Pipeline</span> ⚡
         </button>
         <span id="pipeline-status-text" class="status-message">All 5 pipeline stages verified & active.</span>
       </div>
     </section>
 
-    <!-- In-Browser Interactive Test Runner -->
+    <!-- SECTION 2: In-Browser Test Suite -->
     <section id="test-runner" class="section">
       <div class="section-header">
-        <h2 class="section-title">In-Browser Test Suite</h2>
-        <p class="section-subtitle">Test verification module matching the CI server test cases.</p>
+        <h2 class="section-title">Automated Verification Suite</h2>
+        <p class="section-subtitle">Live test verification module matching the CI server test cases.</p>
       </div>
 
       <div class="test-runner-card">
-        <div class="test-runner-top">
+        <div class="test-runner-header">
           <div>
-            <div class="test-runner-title">Automated Verification Suite</div>
-            <div class="test-runner-meta">4 Unit Tests configured | Runner: Client DOM & Python CI</div>
+            <div class="test-card-title">Client-Side Health Checks</div>
+            <div class="test-card-subtitle">4 automated verification tests &bull; Runner: DOM Validator</div>
           </div>
           <button id="btn-run-tests" class="btn btn-secondary">Run Test Suite</button>
         </div>
@@ -166,7 +171,7 @@
           <div class="test-item test-passed" id="test-item-1">
             <span class="test-icon">✓</span>
             <div class="test-info">
-              <div class="test-name">Test 1: Document Structure & DOCTYPE Validation</div>
+              <div class="test-name">Test 1: Document Structure & Standards</div>
               <div class="test-detail">Ensures valid HTML5 root tag, meta viewport, and UTF-8 charset.</div>
             </div>
             <span class="test-status-tag">PASS</span>
@@ -184,7 +189,7 @@
           <div class="test-item test-passed" id="test-item-3">
             <span class="test-icon">✓</span>
             <div class="test-info">
-              <div class="test-name">Test 3: Metadata Placeholders & DOM Hooks</div>
+              <div class="test-name">Test 3: Metadata Placeholders & Hooks</div>
               <div class="test-detail">Verifies elements for build ID, commit SHA, and deployment timestamp exist.</div>
             </div>
             <span class="test-status-tag">PASS</span>
@@ -193,8 +198,8 @@
           <div class="test-item test-passed" id="test-item-4">
             <span class="test-icon">✓</span>
             <div class="test-info">
-              <div class="test-name">Test 4: GitHub Actions Workflow Integrity</div>
-              <div class="test-detail">Validates .github/workflows/deploy.yml configuration and permissions.</div>
+              <div class="test-name">Test 4: GitHub Actions Workflow Configuration</div>
+              <div class="test-detail">Validates deployment triggers, permissions, and pipeline steps.</div>
             </div>
             <span class="test-status-tag">PASS</span>
           </div>
@@ -202,64 +207,78 @@
       </div>
     </section>
 
-    <!-- Comprehensive CI/CD Guide -->
+    <!-- SECTION 3: Simple CI/CD Concept Guide -->
     <section id="cicd-guide" class="section">
       <div class="section-header">
         <h2 class="section-title">Understanding CI/CD</h2>
-        <p class="section-subtitle">A clear breakdown of concepts, best practices, and architecture.</p>
+        <p class="section-subtitle">The fundamental concepts behind modern automated software delivery.</p>
       </div>
 
       <div class="guide-grid">
         <div class="guide-card">
           <div class="guide-card-icon">🔄</div>
-          <h3>Continuous Integration (CI)</h3>
-          <p>
-            The practice of automating the integration of code changes from multiple contributors into a single repository.
-          </p>
-          <ul class="guide-list">
-            <li><strong>Frequent Commits:</strong> Developers push small, frequent code increments.</li>
-            <li><strong>Automated Builds:</strong> The CI runner creates a clean container for each run.</li>
-            <li><strong>Automated Tests:</strong> Unit, integration, and security checks execute instantly.</li>
-            <li><strong>Early Detection:</strong> Bugs are trapped within seconds of being written, avoiding "merge hell".</li>
-          </ul>
+          <h3>Continuous Integration</h3>
+          <p>Developers merge small code changes frequently. Automated test suites run on every commit to catch bugs early before they reach production.</p>
         </div>
 
         <div class="guide-card">
           <div class="guide-card-icon">🚀</div>
-          <h3>Continuous Delivery vs Deployment (CD)</h3>
-          <p>
-            Taking the tested code and getting it into the hands of users efficiently and reliably.
-          </p>
-          <ul class="guide-list">
-            <li><strong>Continuous Delivery:</strong> Code is automatically built, tested, and packaged into a deployable release candidate. Deploying to production requires a manual 1-click approval.</li>
-            <li><strong>Continuous Deployment:</strong> Every change that passes automated tests is released directly to production with zero human intervention (like this website!).</li>
-          </ul>
+          <h3>Continuous Deployment</h3>
+          <p>Every commit that passes automated testing is immediately published to live production without manual intervention, ensuring fast, reliable releases.</p>
         </div>
 
         <div class="guide-card">
           <div class="guide-card-icon">⚙️</div>
-          <h3>The GitHub Actions Engine</h3>
-          <p>
-            How this site deploys automatically using GitHub's native automation server:
+          <h3>GitHub Actions</h3>
+          <p>The automation engine executing this workflow. Defined in <code>.github/workflows/deploy.yml</code>, it spins up fresh cloud runners for every commit.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: Live Deployment Example & Release Notes -->
+    <section id="release-notes" class="section">
+      <div class="section-header">
+        <h2 class="section-title">Deployment Example: Release Notes v1.1.0</h2>
+        <p class="section-subtitle">Real-world example demonstrating how a production deployment packages release notes with automated change tracking.</p>
+      </div>
+
+      <div class="release-card">
+        <div class="release-header-row">
+          <div>
+            <div class="release-tag">DEPLOYED RELEASE v1.1.0</div>
+            <h3 class="release-title">Streamlined Full-Width CI/CD Portal</h3>
+            <div class="release-meta">
+              Target: <strong>GitHub Pages CDN</strong> &bull; Runner: <strong>Ubuntu 24.04</strong> &bull; Tests: <strong>6/6 Passing</strong>
+            </div>
+          </div>
+          <span class="status-pill status-pill-success">
+            <span class="dot pulse"></span> Live in Production
+          </span>
+        </div>
+
+        <div class="release-body">
+          <p class="release-desc">
+            This deployment demonstrates how continuous deployment pushes incremental improvements directly to end-users once all automated tests pass:
           </p>
-          <ul class="guide-list">
-            <li><strong>Workflow:</strong> Defined in YAML at <code>.github/workflows/deploy.yml</code>.</li>
-            <li><strong>Events:</strong> Triggered on <code>push: [main]</code> or manually via <code>workflow_dispatch</code>.</li>
-            <li><strong>Runners:</strong> Fresh Linux VM spun up in GitHub's cloud for every commit.</li>
-            <li><strong>Artifacts & Pages:</strong> Assets are bundled and published to GitHub Pages CDN.</li>
+          <ul class="release-list">
+            <li><strong>Streamlined UX:</strong> Simplified interface removing visual clutter and battery indicators for a professional look.</li>
+            <li><strong>Widescreen Layout:</strong> Expanded container to 1440px fluid width with balanced whitespace and responsive CSS grids.</li>
+            <li><strong>Automated Test Gate:</strong> Validated by 6 automated unit tests preventing broken markup or misconfigured workflows.</li>
+            <li><strong>Auditability:</strong> Dynamically stamps release ID, commit SHA, and ISO timestamp into production artifacts.</li>
           </ul>
         </div>
       </div>
     </section>
   </main>
 
+  <!-- Clean, minimal footer -->
   <footer class="footer">
     <div class="container footer-content">
       <div>
-        <strong>CI/CD Test Website</strong> &bull; Powered by GitHub Actions & Pages
+        <strong>CI/CD Test Portal</strong> &bull; Powered by GitHub Actions & Pages
       </div>
       <div class="footer-note">
-        Built for continuous automation testing &bull; User: aishwar2
+        Repository: <a href="https://github.com/aishwar2/demo" target="_blank" rel="noopener noreferrer">aishwar2/demo</a> &bull; 100% Automated
       </div>
     </div>
   </footer>

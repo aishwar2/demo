@@ -50,13 +50,31 @@ flowchart LR
 │   └── style.css           # Modern dark-theme glassmorphism UI
 ├── tests/
 │   └── test_website.py     # Automated test suite executed by CI runner
+├── simulate_pipeline.py    # Local interactive CLI pipeline runner & previewer
 ├── index.html              # Main responsive web portal
 └── README.md               # Documentation & setup guide
 ```
 
 ---
 
-## 🧪 Running Tests Locally
+## ⚡ Interactive CI/CD Simulator (CLI)
+
+Run the full 5-stage automated CI/CD pipeline locally with live logging:
+
+```bash
+# 1. Run full automated pipeline simulation (Trigger -> Lint -> Test -> Build -> Deploy)
+./simulate_pipeline.py
+
+# 2. Simulate pipeline failure (demonstrating how CI aborts before deployment)
+./simulate_pipeline.py --fail-test
+
+# 3. Launch local live preview server (http://localhost:8080)
+./simulate_pipeline.py --serve
+```
+
+---
+
+## 🧪 Running Unit Tests Locally
 
 You can run the same automated test suite executed by the CI server on your local machine:
 
