@@ -137,15 +137,23 @@ def stage_deploy(build_id):
 
 def serve_preview(port=8080):
     os.chdir(REPO_ROOT)
-    server_address = ('', port)
-    httpd = HTTPServer(server_address, SimpleHTTPRequestHandler)
-    print(f"\n{C_BOLD}{C_GREEN}🌐 Local Preview Server running at: http://localhost:{port}/{C_RESET}")
-    print(f"{C_YELLOW}Press Ctrl+C to stop the server.{C_RESET}\n")
-    try:
-        httpd.serve_forever()
-    except KeyboardInterrupt:
-        print("\nStopping server...")
-        httpd.server_close()
+    for p in [port, 8081, 8082, 8000, 3000]:
+        try:
+            HTTPServer.allow_reuse_address = True
+            server_address = ('', p)
+            httpd = HTTPServer(server_address, SimpleHTTPRequestHandler)
+            print(f"\n{C_BOLD}{C_GREEN}🌐 Local Preview Server running at: http://localhost:{p}/{C_RESET}")
+            print(f"{C_YELLOW}Press Ctrl+C to stop the server.{C_RESET}\n")
+            try:
+                httpd.serve_forever()
+            except KeyboardInterrupt:
+                print("\nStopping server...")
+                httpd.server_close()
+            return
+        except OSError as e:
+            if p == 3000:
+                print(f"{C_RED}Could not bind to any test port (8080-8082, 8000, 3000): {e}{C_RESET}")
+                raise
 
 def main():
     parser = argparse.ArgumentParser(description="CI/CD Pipeline Simulator & Demo Engine")
